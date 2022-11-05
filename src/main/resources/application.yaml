@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    password: qwerty
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/hospital
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+security:
+  provider:
+    secret: soymun
+    validate: 3600000
