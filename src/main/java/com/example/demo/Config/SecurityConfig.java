@@ -1,5 +1,8 @@
 package com.example.demo.Config;
 
+import com.example.demo.Security.JwtTokenCofigure;
+import com.example.demo.Security.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -17,6 +20,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
     @Bean
     public SecurityFilterChain builder(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -27,7 +37,7 @@ public class SecurityConfig {
                 .antMatchers("/hospital/registration").permitAll()
                 .antMatchers("/hospital/login").permitAll()
                 .anyRequest().authenticated()
-                /*.and().apply(new JwtTokenConfigure(jwtTokenProvider))*/;
+                .and().apply(new JwtTokenCofigure(jwtTokenProvider));
         return httpSecurity.build();
     }
 

@@ -24,6 +24,8 @@ public class User {
 
     private Long age;
 
+    private Role role;
+
     private Long OMS;
 
     private String snils;
