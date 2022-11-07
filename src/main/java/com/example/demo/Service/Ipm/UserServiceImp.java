@@ -75,6 +75,7 @@ public class UserServiceImp implements UserService {
         CriteriaUpdate<User> cu = cb.createCriteriaUpdate(User.class);
         Root<User> root = cu.getRoot();
 
+        cu.set(User_.ID, userDto.getId());
         cu.set(User_.NAME, userDto.getName());
         cu.set(User_.SURNAME, userDto.getSurname());
         cu.set(User_.AGE, userDto.getAge());
