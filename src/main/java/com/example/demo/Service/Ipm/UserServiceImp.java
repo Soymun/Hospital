@@ -1,12 +1,14 @@
 package com.example.demo.Service.Ipm;
 
+import com.example.demo.DTO.RecordDto;
+import com.example.demo.DTO.ReviewsDto;
 import com.example.demo.DTO.UserDto;
-import com.example.demo.Entity.Plot;
-import com.example.demo.Entity.Plot_;
-import com.example.demo.Entity.User;
-import com.example.demo.Entity.User_;
+import com.example.demo.Entity.*;
+import com.example.demo.Entity.Record;
 import com.example.demo.Exceptions.NotFoundException;
 import com.example.demo.Mappers.UserMapper;
+import com.example.demo.Repositories.RecordRepository;
+import com.example.demo.Repositories.ReviewsRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +29,16 @@ public class UserServiceImp implements UserService {
 
     private final UserMapper userMapper;
 
+    private final ReviewsRepository reviewsRepository;
+
+    private final RecordRepository recordRepository;
+
     @Autowired
-    public UserServiceImp(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImp(UserRepository userRepository, UserMapper userMapper, ReviewsRepository reviewsRepository, RecordRepository recordRepository) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.reviewsRepository = reviewsRepository;
+        this.recordRepository = recordRepository;
     }
 
     @PersistenceContext
@@ -97,6 +105,72 @@ public class UserServiceImp implements UserService {
         cd.where(cb.equal(cd.getRoot().get(User_.ID), id));
         entityManager.createQuery(cd).executeUpdate();
         log.info("User deleted");
+    }
+
+    @Override
+    public ReviewsDto saveReviews(ReviewsDto reviewsDto) {
+        log.info("Save review");
+        Reviews reviews = userMapper.reviewsDtoToReviews(reviewsDto);
+        Reviews savedReviews = reviewsRepository.save(reviews);
+        log.info("Review saved with id {}", savedReviews.getId());
+        return userMapper.reviewsToReviewsDto(savedReviews);
+    }
+
+    @Override
+    public ReviewsDto updateReviews(ReviewsDto reviewsDto) {
+        log.info("Review updating");
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Reviews> cu = cb.createCriteriaUpdate(Reviews.class);
+        Root<Reviews> root = cu.getRoot();
+
+        cu.set(Reviews_.ID, reviewsDto.getId());
+        cu.set(Reviews_.MARKS, reviewsDto.getMarks());
+        cu.set(Reviews_.ABOUT, reviewsDto.getAbout());
+        cu.set(Reviews_.USER_ID, reviewsDto.getUserId());
+        cu.set(Reviews_.DOCTOR_ID, reviewsDto.getDoctorId());
+
+        cu.where(cb.equal(root.get(User_.ID), reviewsDto.getId()));
+        entityManager.createQuery(cu).executeUpdate();
+        log.info("Reviews updated");
+        return reviewsDto;
+    }
+
+    @Override
+    public RecordDto saveRecord(RecordDto recordDto) {
+        log.info("Save record");
+        Record record = userMapper.recordDtoToRecord(recordDto);
+        Record savedRecord = recordRepository.save(record);
+        log.info("Records saved with id {}", savedRecord.getId());
+        return userMapper.recordToRecordDto(savedRecord);
+    }
+
+    @Override
+    public RecordDto updateRecord(RecordDto recordDto) {
+        log.info("Record updating");
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Record> cu = cb.createCriteriaUpdate(Record.class);
+        Root<Record> root = cu.getRoot();
+
+        cu.set(Record_.ID, recordDto.getId());
+        cu.set(Record_.DATE, recordDto.getDate());
+        cu.set(Record_.DATE_RECORD, recordDto.getDateRecord());
+        cu.set(Record_.USER_ID, recordDto.getUserId());
+        cu.set(Record_.DOCTOR_ID, recordDto.getDoctorId());
+
+        cu.where(cb.equal(root.get(User_.ID), recordDto.getId()));
+        entityManager.createQuery(cu).executeUpdate();
+        log.info("Record updated");
+        return recordDto;
+    }
+
+    @Override
+    public void deleteRecord(Long id) {
+        log.info("Record deleting");
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaDelete<Record> cd = cb.createCriteriaDelete(Record.class);
+        cd.where(cb.equal(cd.getRoot().get(Record_.ID), id));
+        entityManager.createQuery(cd).executeUpdate();
+        log.info("Record deleted");
     }
 
     @Override
