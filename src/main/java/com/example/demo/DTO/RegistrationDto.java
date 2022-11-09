@@ -3,9 +3,7 @@ package com.example.demo.DTO;
 import lombok.Data;
 
 @Data
-public class UserDto {
-
-    private Long id;
+public class RegistrationDto {
 
     private String name;
 
@@ -22,6 +20,4 @@ public class UserDto {
     private String snils;
 
     private Long plotId;
-
-    private String namePlot;
 }

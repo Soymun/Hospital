@@ -45,10 +45,9 @@ public class UserServiceImp implements UserService {
     EntityManager entityManager;
 
     @Override
-    public UserDto saveUser(UserDto userDto) {
+    public UserDto saveUser(User userDto) {
         log.info("User saving");
-        User user = userMapper.userDtoToUser(userDto);
-        User userSaved = userRepository.save(user);
+        User userSaved = userRepository.save(userDto);
         log.info("User saved");
         return userMapper.userToUserDto(userSaved);
     }
@@ -171,6 +170,12 @@ public class UserServiceImp implements UserService {
         cd.where(cb.equal(cd.getRoot().get(Record_.ID), id));
         entityManager.createQuery(cd).executeUpdate();
         log.info("Record deleted");
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        log.info("User get by email");
+        return userRepository.findUserByEmail(email).orElse(null);
     }
 
     @Override

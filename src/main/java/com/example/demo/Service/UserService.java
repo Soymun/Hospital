@@ -3,13 +3,14 @@ package com.example.demo.Service;
 import com.example.demo.DTO.RecordDto;
 import com.example.demo.DTO.ReviewsDto;
 import com.example.demo.DTO.UserDto;
+import com.example.demo.Entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface UserService extends UserDetailsService {
 
-    UserDto saveUser(UserDto userDto);
+    UserDto saveUser(User userDto);
 
     UserDto getUser(Long id);
 
@@ -26,4 +27,6 @@ public interface UserService extends UserDetailsService {
     RecordDto updateRecord(RecordDto recordDto);
 
     void deleteRecord(Long id);
+
+    User getUserByEmail(String email);
 }
