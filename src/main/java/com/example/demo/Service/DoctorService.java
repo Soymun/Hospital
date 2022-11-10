@@ -29,4 +29,7 @@ public interface DoctorService {
 
     void deleteTroubles(Long id);
 
+    List<TroublesDto> getAllTroublesByUserId(Long id);
+
+    List<ScheduleDto> getAllScheduleByUserId(Long id);
 }

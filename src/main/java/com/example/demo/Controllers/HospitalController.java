@@ -4,7 +4,6 @@ package com.example.demo.Controllers;
 import com.example.demo.DTO.HospitalDto;
 import com.example.demo.DTO.HouseDto;
 import com.example.demo.DTO.PlotDto;
-import com.example.demo.Entity.Hospital;
 import com.example.demo.Service.Ipm.HospitalServiceImp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

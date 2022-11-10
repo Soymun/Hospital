@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -141,6 +142,24 @@ public class UserServiceImp implements UserService {
         Record savedRecord = recordRepository.save(record);
         log.info("Records saved with id {}", savedRecord.getId());
         return userMapper.recordToRecordDto(savedRecord);
+    }
+
+    @Override
+    public List<RecordDto> getAllRecordByUserId(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<RecordDto> cq = cb.createQuery(RecordDto.class);
+        Root<Record> root = cq.from(Record.class);
+
+        cq.where(cb.equal(root.get(Record_.USER_ID), id));
+
+        cq.multiselect(
+                root.get(Record_.ID),
+                root.get(Record_.DATE),
+                root.get(Record_.DATE_RECORD),
+                root.get(Record_.USER_ID),
+                root.get(Record_.DOCTOR_ID)
+        );
+        return entityManager.createQuery(cq).getResultList();
     }
 
     @Override

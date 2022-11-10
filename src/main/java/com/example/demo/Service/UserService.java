@@ -7,6 +7,8 @@ import com.example.demo.Entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 public interface UserService extends UserDetailsService {
 
@@ -23,6 +25,8 @@ public interface UserService extends UserDetailsService {
     ReviewsDto updateReviews(ReviewsDto reviewsDto);
 
     RecordDto saveRecord(RecordDto recordDto);
+
+    List<RecordDto> getAllRecordByUserId(Long id);
 
     RecordDto updateRecord(RecordDto recordDto);
 

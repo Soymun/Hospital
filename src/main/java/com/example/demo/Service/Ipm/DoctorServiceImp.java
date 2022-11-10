@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 import java.util.List;
@@ -155,5 +156,44 @@ public class DoctorServiceImp implements DoctorService {
         log.info("Troubles delete with id {}", id);
         troublesRepository.deleteById(id);
         log.info("Troubles deleted");
+    }
+
+    @Override
+    public List<TroublesDto> getAllTroublesByUserId(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TroublesDto> cq = cb.createQuery(TroublesDto.class);
+        Root<Troubles> root = cq.from(Troubles.class);
+
+        cq.where(cb.equal(root.get(Troubles_.USER_ID), id));
+
+        cq.multiselect(
+                root.get(Troubles_.ID),
+                root.get(Troubles_.USER_ID),
+                root.get(Troubles_.DOCTOR_ID),
+                root.get(Troubles_.NAME_TROUBLES),
+                root.get(Troubles_.ABOUT),
+                root.get(Troubles_.DATE),
+                root.get(Troubles_.RECEPTION)
+        );
+
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<ScheduleDto> getAllScheduleByUserId(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ScheduleDto> cq = cb.createQuery(ScheduleDto.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+
+        cq.where(cb.equal(root.get(Schedule_.USER_ID), id));
+
+        cq.multiselect(
+                root.get(Schedule_.ID),
+                root.get(Schedule_.DATE),
+                root.get(Schedule_.USER_ID),
+                root.get(Schedule_.DOCTOR_ID)
+        );
+
+        return entityManager.createQuery(cq).getResultList();
     }
 }
