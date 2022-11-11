@@ -5,6 +5,7 @@ import com.example.demo.DTO.ScheduleDto;
 import com.example.demo.DTO.TroublesDto;
 import com.example.demo.Entity.Schedule;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DoctorService {
@@ -32,4 +33,14 @@ public interface DoctorService {
     List<TroublesDto> getAllTroublesByUserId(Long id);
 
     List<ScheduleDto> getAllScheduleByUserId(Long id);
+
+    DoctorDto getDoctorById(Long id);
+
+    List<DoctorDto> getDoctorsByPlotId(Long id);
+
+    TroublesDto getTroubles(Long id);
+
+    List<TroublesDto> getTroublesByUserId(Long id);
+
+    List<ScheduleDto> getScheduleByDoctorIdAndDay(Long id, LocalDate date);
 }

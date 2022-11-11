@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -186,6 +187,102 @@ public class DoctorServiceImp implements DoctorService {
         Root<Schedule> root = cq.from(Schedule.class);
 
         cq.where(cb.equal(root.get(Schedule_.USER_ID), id));
+
+        cq.multiselect(
+                root.get(Schedule_.ID),
+                root.get(Schedule_.DATE),
+                root.get(Schedule_.USER_ID),
+                root.get(Schedule_.DOCTOR_ID)
+        );
+
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public DoctorDto getDoctorById(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<DoctorDto> cq = cb.createQuery(DoctorDto.class);
+        Root<Doctor> root = cq.from(Doctor.class);
+
+        cq.where(cb.equal(root.get(Doctor_.ID), id));
+
+        cq.multiselect(
+                root.get(Doctor_.ID),
+                root.get(Doctor_.USER_ID),
+                root.get(Doctor_.PLOT_ID),
+                root.get(Doctor_.QUALIFICATION)
+        );
+
+        return entityManager.createQuery(cq).getSingleResult();
+    }
+
+    @Override
+    public List<DoctorDto> getDoctorsByPlotId(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<DoctorDto> cq = cb.createQuery(DoctorDto.class);
+        Root<Doctor> root = cq.from(Doctor.class);
+
+        cq.where(cb.equal(root.get(Doctor_.PLOT_ID), id));
+
+        cq.multiselect(
+                root.get(Doctor_.ID),
+                root.get(Doctor_.USER_ID),
+                root.get(Doctor_.PLOT_ID),
+                root.get(Doctor_.QUALIFICATION)
+        );
+
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public TroublesDto getTroubles(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TroublesDto> cq = cb.createQuery(TroublesDto.class);
+        Root<Troubles> root = cq.from(Troubles.class);
+
+        cq.where(cb.equal(root.get(Troubles_.ID), id));
+
+        cq.multiselect(
+                root.get(Troubles_.ID),
+                root.get(Troubles_.USER_ID),
+                root.get(Troubles_.DOCTOR_ID),
+                root.get(Troubles_.NAME_TROUBLES),
+                root.get(Troubles_.ABOUT),
+                root.get(Troubles_.DATE),
+                root.get(Troubles_.RECEPTION)
+        );
+
+        return entityManager.createQuery(cq).getSingleResult();
+    }
+
+    @Override
+    public List<TroublesDto> getTroublesByUserId(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TroublesDto> cq = cb.createQuery(TroublesDto.class);
+        Root<Troubles> root = cq.from(Troubles.class);
+
+        cq.where(cb.equal(root.get(Troubles_.USER_ID), id));
+
+        cq.multiselect(
+                root.get(Troubles_.ID),
+                root.get(Troubles_.USER_ID),
+                root.get(Troubles_.DOCTOR_ID),
+                root.get(Troubles_.NAME_TROUBLES),
+                root.get(Troubles_.ABOUT),
+                root.get(Troubles_.DATE),
+                root.get(Troubles_.RECEPTION)
+        );
+
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<ScheduleDto> getScheduleByDoctorIdAndDay(Long id, LocalDate date) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ScheduleDto> cq = cb.createQuery(ScheduleDto.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+
+        cq.where(cb.and(cb.equal(root.get(Schedule_.DOCTOR_ID), id), cb.lessThanOrEqualTo(root.get(Schedule_.DATE), date)));
 
         cq.multiselect(
                 root.get(Schedule_.ID),
