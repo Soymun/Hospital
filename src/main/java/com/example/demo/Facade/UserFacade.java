@@ -1,8 +1,6 @@
 package com.example.demo.Facade;
 
 import com.example.demo.DTO.*;
-import com.example.demo.Entity.Reviews;
-import com.example.demo.Entity.Schedule;
 import com.example.demo.Exceptions.NotFoundException;
 import com.example.demo.Response.ResponseDto;
 import com.example.demo.Service.DoctorService;
@@ -89,28 +87,6 @@ public class UserFacade {
         List<ScheduleDto> list = doctorService.getAllScheduleByUserId(id);
         ResponseDto responseDto = new ResponseDto();
         responseDto.setBody(list);
-        return ResponseEntity.ok(responseDto);
-    }
-
-    public ResponseEntity<?> saveRecord(RecordDto recordDto){
-        if(recordDto == null){
-            log.debug("RecordDto is null");
-            throw new RuntimeException("Record save failed");
-        }
-        RecordDto recordDto1 = userServiceImp.saveRecord(recordDto);
-        ResponseDto responseDto = new ResponseDto();
-        responseDto.setBody(recordDto1);
-        return ResponseEntity.ok(responseDto);
-    }
-
-    public ResponseEntity<?> deleteRecord(Long id){
-        if(id == null){
-            log.debug("Id is null");
-            throw new NotFoundException("Record not found");
-        }
-        userServiceImp.deleteRecord(id);
-        ResponseDto responseDto = new ResponseDto();
-        responseDto.setBody("Record delete.Suggest");
         return ResponseEntity.ok(responseDto);
     }
 

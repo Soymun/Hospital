@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+//checked
 @RestController
 @RequestMapping("/hospital")
 @Slf4j
@@ -53,7 +54,7 @@ public class AuthController {
        user.setAge(registrationDto.getAge());
        user.setName(registrationDto.getName());
        user.setSurname(registrationDto.getSurname());
-       user.setOMS(registrationDto.getOMS());
+       user.setOMS(registrationDto.getOms());
        user.setPlotId(registrationDto.getPlotId());
        user.setSnils(registrationDto.getSnils());
        user.setRole(Role.USER);

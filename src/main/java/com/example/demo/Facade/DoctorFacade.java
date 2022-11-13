@@ -4,7 +4,6 @@ package com.example.demo.Facade;
 import com.example.demo.DTO.DoctorDto;
 import com.example.demo.DTO.ScheduleDto;
 import com.example.demo.DTO.TroublesDto;
-import com.example.demo.Entity.Schedule;
 import com.example.demo.Exceptions.NotFoundException;
 import com.example.demo.Response.ResponseDto;
 import com.example.demo.Service.Ipm.DoctorServiceImp;
@@ -26,6 +25,18 @@ public class DoctorFacade{
     public DoctorFacade(DoctorServiceImp doctorServiceImp) {
         this.doctorServiceImp = doctorServiceImp;
     }
+
+    public ResponseEntity<?> saveDoctor(DoctorDto doctorDto){
+        if(doctorDto == null){
+            log.debug("Doctor is null");
+            throw new RuntimeException("Save doctor failed");
+        }
+        DoctorDto doctorDto1 = doctorServiceImp.saveDoctor(doctorDto);
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setBody(doctorDto1);
+        return ResponseEntity.ok(responseDto);
+    }
+
 
     public ResponseEntity<?> getDoctor(Long id){
         if(id == null){

@@ -15,7 +15,7 @@ public class RegistrationDto {
 
     private Long age;
 
-    private Long OMS;
+    private Long oms;
 
     private String snils;
 
