@@ -12,6 +12,7 @@ import com.example.demo.Service.HospitalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,6 +23,7 @@ import javax.persistence.criteria.Root;
 
 @Service
 @Slf4j
+@Transactional
 public class HospitalServiceImp implements HospitalService {
 
     private final HospitalMapper hospitalMapper;
@@ -57,7 +59,7 @@ public class HospitalServiceImp implements HospitalService {
         log.info("Hospital updating");
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaUpdate<Hospital> cu = cb.createCriteriaUpdate(Hospital.class);
-        Root<Hospital> root = cu.getRoot();
+        Root<Hospital> root = cu.from(Hospital.class);
 
         cu.set(Hospital_.ID, hospitalDto.getId());
         cu.set(Hospital_.NAME_ORGANIZATION, hospitalDto.getNameOrganization());
@@ -104,7 +106,7 @@ public class HospitalServiceImp implements HospitalService {
         log.info("House updating");
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaUpdate<House> cu = cb.createCriteriaUpdate(House.class);
-        Root<House> root = cu.getRoot();
+        Root<House> root = cu.from(House.class);
 
         cu.set(House_.ID, house.getId());
         cu.set(House_.PLOT_ID, house.getPlotId());
@@ -155,7 +157,7 @@ public class HospitalServiceImp implements HospitalService {
         log.info("Plot updating");
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaUpdate<Plot> cu = cb.createCriteriaUpdate(Plot.class);
-        Root<Plot> root = cu.getRoot();
+        Root<Plot> root = cu.from(Plot.class);
 
         cu.set(Plot_.ID, plotDto.getId());
         cu.set(Plot_.NAME_PLOT, plotDto.getNamePlot());

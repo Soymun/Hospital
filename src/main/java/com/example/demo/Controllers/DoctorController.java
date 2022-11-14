@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+//check
+
 @RestController
 @RequestMapping("/hospital")
 public class DoctorController {
@@ -35,12 +37,12 @@ public class DoctorController {
         return doctorFacade.getAllDoctorsByPlotId(id);
     }
 
-    @PostMapping("troubles")
+    @PostMapping("/troubles")
     public ResponseEntity<?> saveTroubles(@RequestBody TroublesDto troublesDto){
         return doctorFacade.saveTroubles(troublesDto);
     }
 
-    @PutMapping("troubles")
+    @PutMapping("/troubles")
     public ResponseEntity<?> updateTroubles(@RequestBody TroublesDto troublesDto){
         return doctorFacade.updateTroubles(troublesDto);
     }

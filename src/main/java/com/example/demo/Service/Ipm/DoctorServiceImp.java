@@ -12,6 +12,7 @@ import com.example.demo.Service.DoctorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,10 +21,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Service
 @Slf4j
+@Transactional
 public class DoctorServiceImp implements DoctorService {
 
     @PersistenceContext
@@ -136,7 +139,7 @@ public class DoctorServiceImp implements DoctorService {
         log.info("Update troubles");
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaUpdate<Troubles> cu = cb.createCriteriaUpdate(Troubles.class);
-        Root<Troubles> root = cu.getRoot();
+        Root<Troubles> root = cu.from(Troubles.class);
 
         cu.set(Troubles_.ID, troublesDto.getId());
         cu.set(Troubles_.USER_ID, troublesDto.getUserId());
@@ -277,7 +280,7 @@ public class DoctorServiceImp implements DoctorService {
     }
 
     @Override
-    public List<ScheduleDto> getScheduleByDoctorIdAndDay(Long id, LocalDate date) {
+    public List<ScheduleDto> getScheduleByDoctorIdAndDay(Long id, Date date) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<ScheduleDto> cq = cb.createQuery(ScheduleDto.class);
         Root<Schedule> root = cq.from(Schedule.class);

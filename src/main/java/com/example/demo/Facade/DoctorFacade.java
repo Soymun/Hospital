@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -104,7 +105,7 @@ public class DoctorFacade{
         return ResponseEntity.ok(responseDto);
     }
 
-    public ResponseEntity<?>  getScheduleByDoctorIdAndDay(Long id, LocalDate date){
+    public ResponseEntity<?>  getScheduleByDoctorIdAndDay(Long id, Date date){
         if(id == null || date == null){
             log.debug("Id or date is null");
             throw new NotFoundException("Schedules not founds");

@@ -6,6 +6,7 @@ import com.example.demo.DTO.TroublesDto;
 import com.example.demo.Entity.Schedule;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface DoctorService {
@@ -42,5 +43,5 @@ public interface DoctorService {
 
     List<TroublesDto> getTroublesByUserId(Long id);
 
-    List<ScheduleDto> getScheduleByDoctorIdAndDay(Long id, LocalDate date);
+    List<ScheduleDto> getScheduleByDoctorIdAndDay(Long id, Date date);
 }

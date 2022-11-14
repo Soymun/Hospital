@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+//check
+
 @RestController
 @RequestMapping("/hospital")
 @Slf4j
@@ -85,7 +87,7 @@ public class HospitalController {
         return ResponseEntity.ok("Suggest");
     }
 
-    @PostMapping("/save/home")
+    @PostMapping("/save/house")
     public ResponseEntity<?> saveHome(@RequestBody HouseDto houseDto){
         log.info("Save house");
 
